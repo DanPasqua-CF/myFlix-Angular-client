@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-profile',
-  standalone: true,   // ✅ REQUIRED
+  standalone: true,
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
   imports: [
