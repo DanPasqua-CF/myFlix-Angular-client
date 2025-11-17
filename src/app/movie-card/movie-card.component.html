@@ -1,0 +1,72 @@
+<div class="header-container">
+  <h1>MyFlix Movie List</h1>
+  <button 
+  mat-raised-button 
+  color="primary" 
+  (click)="navigateToProfile()"
+  aria-label="Go to profile"
+>
+  <mat-icon>account_circle</mat-icon>
+  <span>My Profile</span>
+</button>
+</div>
+
+<div class="movie-container">
+  <mat-card *ngFor="let movie of movies">
+    <mat-card-header>
+      <mat-card-title>{{ movie.title }}</mat-card-title>
+      <mat-card-subtitle>Directed by: {{ movie.directors[0]?.name }}</mat-card-subtitle>
+    </mat-card-header>
+    
+    <img mat-card-image src="{{ movie.imageUrl }}" alt="{{ movie.title }} poster">
+    
+    <mat-card-content>
+      <p>{{ movie.description }}</p>
+    </mat-card-content>
+    
+    <mat-card-actions>
+      <div class="card-footer-links">
+        <button 
+          mat-button 
+          class="footer-link"
+          (click)="showDescription(movie)"
+          aria-label="View description"
+        >
+          <mat-icon>description</mat-icon>
+          <span>Description</span>
+        </button>
+        
+        <button 
+          mat-button 
+          class="footer-link"
+          (click)="showDirectorInfo(movie)"
+          aria-label="View director info"
+        >
+          <mat-icon>person</mat-icon>
+          <span>Director</span>
+        </button>
+        
+        <button 
+          mat-button 
+          class="footer-link"
+          (click)="showGenreInfo(movie)"
+          aria-label="View genre"
+        >
+          <mat-icon>category</mat-icon>
+          <span>Genre</span>
+        </button>
+        
+        <button 
+          mat-button 
+          color="warn" 
+          class="footer-link"
+          aria-label="Add to Favorites"
+          (click)="addToFavorites(movie._id)"
+        >
+          <mat-icon>favorite_border</mat-icon>
+          <span>Favorite</span>
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -26,6 +26,7 @@ import { FetchApiDataService } from '../fetch-api-data.service';
   templateUrl: './user-login-form.component.html',
   styleUrl: './user-login-form.component.scss',
 })
+
 export class UserLoginFormComponent implements OnInit {
 
   @Input() userData = { username: '', password: '' };
@@ -40,21 +41,27 @@ export class UserLoginFormComponent implements OnInit {
   ngOnInit(): void { }
 
   userLogin(): void {
-    this.fetchApiData.userLogin(this.userData).subscribe(
-      (result) => {
-        localStorage.setItem('user', JSON.stringify(result.user));
-        localStorage.setItem('token', JSON.stringify(result.token));
-
-        this.dialogRef.close();
-        this.snackBar.open('Login successful', 'OK', {
-          duration: 2000,
-        });
-      },
-      (result) => {
-        this.snackBar.open(`Error: ${result}`, 'OK', {
-          duration: 2000,
-        });
-      }
-    );
-  }
+  this.fetchApiData.userLogin(this.userData).subscribe({
+    next: (result) => {
+      console.log('Login result:', result);
+      
+      localStorage.setItem('token', result.token);
+      localStorage.setItem('username', result.user.Username || result.user.username);
+      localStorage.setItem('user', JSON.stringify(result.user));
+      
+      this.dialogRef.close();
+      this.snackBar.open('Login successful', 'OK', {
+        duration: 2000,
+      });
+      
+      this.router.navigate(['movies']);
+    },
+    error: (error) => {
+      console.error('Login error:', error);
+      this.snackBar.open('Login failed. Please check your credentials.', 'OK', {
+        duration: 2000,
+      });
+    }
+  });
+}
 }

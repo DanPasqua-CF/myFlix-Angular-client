@@ -9,6 +9,7 @@ const apiUrl = 'https://movie-project-flix-fb8ed415ea47.herokuapp.com/';
 @Injectable({
   providedIn: 'root'
 })
+
 export class FetchApiDataService {
   /* Inject the HttpClient module to the constructor params */
   constructor(private http: HttpClient) { }
@@ -25,10 +26,11 @@ export class FetchApiDataService {
     } 
     else {
       console.error(
-        `Error status code: ${error.status}, Error body is: ${error.error}`);
+        `Error status code: ${error.status}`);
+      console.error('Error body:', error.error);
     }
     return throwError(
-      'Something bad happened; please try again later.');
+      () => error.error || 'Something bad happened; please try again later.');
   }
 
   /* Making the api call for the user registration endpoint */
@@ -140,7 +142,7 @@ export class FetchApiDataService {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
     
-    return this.http.post(`${apiUrl}users/${username}/favorites/${movieId}`, {}, {
+    return this.http.post(`${apiUrl}users/${username}/favoriteMovies/${movieId}`, {}, {
       headers: new HttpHeaders({
         Authorization: `Bearer ${token}`,
       })
@@ -154,6 +156,8 @@ export class FetchApiDataService {
   public editUser(userDetails: any): Observable<any> {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
+    
+    console.log('API editUser called with:', userDetails);
     
     return this.http.put(`${apiUrl}users/${username}`, userDetails, {
       headers: new HttpHeaders({

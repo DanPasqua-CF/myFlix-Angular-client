@@ -1,0 +1,27 @@
+<div class="user-profile-container" *ngIf="user">
+
+  <button mat-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+    Back
+  </button>
+
+  <h2>User Profile</h2>
+
+  <h3>User Details</h3>
+  <ul>
+    <li><strong>Username:</strong> {{ user.username }}</li>
+    <li><strong>Email:</strong> {{ user.email }}</li>
+    <li><strong>Birthday:</strong> {{ user.birthday | date }}</li>
+  </ul>
+
+  <h3>Favorite Movies</h3>
+  <ul *ngIf="favoriteMovies && favoriteMovies.length > 0">
+    <li *ngFor="let movie of favoriteMovies">
+      {{ movie.title }}
+    </li>
+  </ul>
+
+  <p *ngIf="favoriteMovies.length === 0">
+    You haven't favorited any movies yet.
+  </p>
+</div>
